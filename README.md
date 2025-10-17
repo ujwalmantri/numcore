@@ -18,17 +18,46 @@ from numcore import counter
 # Get 5 integers from user
 numbers = n_input(5)
 print(numbers)
-
+```
+```python
+from numcore import counter
 # Count occurrences in a list
 result = counter(['a', 'b', 'c', 'a', 'b', 'a'])
 print(result)  # Output: {'a': 3, 'b': 2, 'c': 1}
+# List Analysis
+```
+```python
+from numcore import mean, median, mode, std, analyze_list
+
+# Basic statistics
+data = [23, 45, 67, 45, 89, 34, 78, 98, 54, 55]
+print(mean(data))      # 58.8
+print(median(data))    # 54.5
+print(mode(data))      # [45]
+print(std(data))       # 23.82
+
+# Comprehensive analysis
+analysis = analyze_list(data)
+print(analysis['mean'])              # 58.8
+print(analysis['variance'])          # {'population variance': ..., 'sample variance': ...}
+print(analysis['frequency'])         # {23: 1, 45: 2, 67: 1, ...}
 ```
 
 ## ✨ Features
 
-- Input validation for integers
-- More functions coming daily!
-- Built from scratch for learning
+**Input Functions:**
+- **n_input()** - Get n integers from user with validation
+
+**List Utilities:**
+- **counter()** - Count occurrences of items
+
+**Statistical Functions:**
+- **mean()** - Calculate average
+- **median()** - Find middle value
+- **mode()** - Find most common value(s)
+- **variance()** - Calculate variance (population or sample)
+- **std()** - Calculate standard deviation
+- **analyze_list()** - Comprehensive statistical analysis
 
 ## 🎯 Roadmap
 
@@ -42,7 +71,7 @@ print(result)  # Output: {'a': 3, 'b': 2, 'c': 1}
 
 ## 📊 Progress
 
-**Current Functions:** 2/250 (0.8%)
+**Current Functions:** 8/250 (3.2%)
 
 ## 👨‍💻 Author
 
