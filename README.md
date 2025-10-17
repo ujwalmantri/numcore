@@ -13,10 +13,15 @@ pip install numcore
 ## 📖 Usage
 ```python
 from numcore import n_input
+from numcore import counter
 
 # Get 5 integers from user
 numbers = n_input(5)
 print(numbers)
+
+# Count occurrences in a list
+result = counter(['a', 'b', 'c', 'a', 'b', 'a'])
+print(result)  # Output: {'a': 3, 'b': 2, 'c': 1}
 ```
 
 ## ✨ Features
@@ -27,7 +32,8 @@ print(numbers)
 
 ## 🎯 Roadmap
 
-- [x] Basic input functions (v0.1.0)
+- [x] Basic input functions (v0.1.1)
+- [x] List utilities - counter (v0.1.2)
 - [ ] Arithmetic operations (add, subtract, multiply, divide)
 - [ ] Algebra functions
 - [ ] Calculus functions
@@ -54,5 +60,5 @@ If you find this helpful, please give it a star ⭐ on GitHub!
 
 ---
 
-Built with ❤️ by a first-year student learning Python
+> Crafted with Python. Powered by curiosity. Open-sourced for learning. ⚡
 ```
