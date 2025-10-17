@@ -77,7 +77,7 @@ print(analysis['frequency'])         # {23: 1, 45: 2, 67: 1, ...}
 
 **Ujwal Mantri**
 - PyPI: [numcore](https://pypi.org/project/numcore/)
-- Email: ujwalmantri@gmail.com
+- Email: ujwalmantrifr@gmail.com
 
 ## 📝 License
 
