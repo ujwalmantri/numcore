@@ -475,3 +475,201 @@ def is_perfect(num):
         False
     """
     return sum(divisors(num)) == 2 * num
+
+def input_matrix():
+    """
+    Get a matrix from user input (interactive).
+    
+    Returns:
+        list: Matrix as 2D list
+        
+    Example:
+        >>> mat = input_matrix()
+        Enter number of rows: 2
+        Enter number of columns: 2
+        Enter element a11: 1
+        Enter element a12: 2
+        Enter element a21: 3
+        Enter element a22: 4
+        >>> print(mat)
+        [[1, 2], [3, 4]]
+    """
+    rows = int(input("Enter number of rows: "))
+    cols = int(input("Enter number of columns: "))
+    
+    matrix = []
+    print(f"\nEnter elements for {rows} x {cols} matrix:")
+    
+    for i in range(rows):
+        row = []
+        for j in range(cols):
+            val = float(input(f"Enter element a{i+1}{j+1}: "))
+            row.append(val)
+        matrix.append(row)
+    
+    return matrix
+
+def create_matrix(rows, cols, fill=0):
+    """
+    Create a matrix of given dimensions filled with a value.
+    
+    Args:
+        rows (int): Number of rows
+        cols (int): Number of columns
+        fill: Value to fill matrix with (default 0)
+        
+    Returns:
+        list: 2D list representing the matrix
+        
+    Example:
+        >>> create_matrix(2, 3)
+        [[0, 0, 0], [0, 0, 0]]
+        
+        >>> create_matrix(2, 2, fill=5)
+        [[5, 5], [5, 5]]
+    """
+    matrix = []
+    for i in range(rows):
+        row = []
+        for j in range(cols):
+            row.append(fill)
+        matrix.append(row)
+    
+    return matrix
+
+def matrix_shape(matrix):
+    """
+    Get the dimensions of a matrix.
+    
+    Args:
+        matrix (list): 2D list representing a matrix
+        
+    Returns:
+        tuple: (rows, cols) dimensions
+        
+    Example:
+        >>> matrix_shape([[1, 2, 3], [4, 5, 6]])
+        (2, 3)
+    """
+    if not matrix:
+        raise ValueError("Cannot get shape of empty matrix")
+    
+    rows = len(matrix)
+    cols = len(matrix[0])
+    
+    for i in range(rows):
+        if len(matrix[i]) != cols:
+            raise ValueError(f"Invalid matrix: row {i} has {len(matrix[i])} elements, expected {cols}")
+    
+    return rows, cols
+
+def matrix_add(mat1, mat2):
+    """
+    Add two matrices element-wise.
+    
+    Args:
+        mat1 (list): First matrix
+        mat2 (list): Second matrix
+        
+    Returns:
+        list: Sum of matrices
+        
+    Example:
+        >>> matrix_add([[1,2],[3,4]], [[5,6],[7,8]])
+        [[6, 8], [10, 12]]
+    """
+
+    if matrix_shape(mat1) != matrix_shape(mat2):
+        raise ValueError("Cannot add two matrix with different dimensions.")
+    rows = len(mat1)
+    cols = len(mat1[0])
+    result = create_matrix(rows, cols, 0)
+
+    for i in range(rows):
+        for j in range(cols):
+            result[i][j] = mat1[i][j] + mat2[i][j]
+
+    return result
+
+def matrix_sub(mat1, mat2):
+    """
+    Subtract two matrices element-wise.
+    
+    Args:
+        mat1 (list): First matrix
+        mat2 (list): Second matrix
+        
+    Returns:
+        list: Difference of matrices
+        
+    Example:
+        >>> matrix_sub([[1,2],[3,4]], [[5,6],[7,8]])
+        [[-4, -4], [-4, -4]]
+    """
+    if matrix_shape(mat1) != matrix_shape(mat2):
+        raise ValueError("Cannot subtract two matrix with different dimensions.")
+    rows = len(mat1)
+    cols = len(mat1[0])
+    result = create_matrix(rows, cols, 0)
+
+    for i in range(rows):
+        for j in range(cols):
+            result[i][j] = mat1[i][j] - mat2[i][j]
+
+    return result
+
+def scalar_multiply(matrix, scalar):
+    """
+    Multiply a matrix by a scalar (single number).
+    
+    Args:
+        matrix (list): 2D list representing a matrix
+        scalar (int/float): Scalar to be multiplied with matrix
+        
+    Returns:
+        list: Multiplication of a scalar with matrix
+        
+    Example:
+        >>> scalar_multiply([[1, 2, 3], [4, 5, 6]], 5)
+        [[5, 10, 15], [20, 25, 30]]
+    """
+    if not matrix:
+        raise ValueError("Cannot multiply empty matrix")
+    
+    rows, cols = matrix_shape(matrix)
+    result = create_matrix(rows, cols, 0) 
+    
+    for i in range(rows):
+        for j in range(cols):
+            result[i][j] = matrix[i][j] * scalar  
+    
+    return result
+
+def matrix_multiply(mat1, mat2):
+    """
+    Multiply two matrices.
+    
+    Args:
+        mat1 (list): First matrix
+        mat2 (list): Second matrix
+        
+    Returns:
+        list: Multiplication of matrices
+        
+    Example:
+        >>> matrix_multiply([[1,2],[3,4]], [[5,6],[7,8]])
+        [[19, 22], [43, 50]]
+    """
+    rows1, cols1 = matrix_shape(mat1)
+    rows2, cols2 = matrix_shape(mat2)
+
+    if cols1 != rows2:
+        raise ValueError("Cannot multiply matrices; number of columns in Matrix 1 must equal the number of rows in Matrix 2.")
+    
+    result = create_matrix(rows1, cols2, 0)
+    for i in range(rows1):
+        for j in range(cols2):
+            for k in range(cols1):
+                result[i][j] += mat1[i][k] * mat2[k][j]\
+                
+    return result
