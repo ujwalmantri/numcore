@@ -227,27 +227,32 @@ def product(lst):
         p *= i
     return p
 
-def nth_root(num, n):
+def nth_root(num, n, tol=1e-9):
     """
     Calculate nth root of a number.
     
     Args:
         num (float): The number
         n (int): The root
+        tolerence (flaot): Tolerence for floating point precision
         
     Returns:
         float: nth root value
 
     Example:
         >>> nth_root(729,3)
-        729 ^ (1/3) = 8.999999999999998
+        729 ^ (1/3) = 9.0
     
     """
     if n == 0:
         raise ValueError("Cannot calculate 0th root")
     if num < 0 and n % 2 == 0:
         raise ValueError("Cannot calculate even root of negative number")
-    return num ** (1/n)
+    result = num ** (1/n)
+    nearest = round(result)
+    if abs(result - nearest) < tol:
+        return float(nearest)
+    return result
 
 def factorial(num):
     """
@@ -673,3 +678,258 @@ def matrix_multiply(mat1, mat2):
                 result[i][j] += mat1[i][k] * mat2[k][j]\
                 
     return result
+
+def matrix_identity(rows):
+    """
+    Create an identity matrix.
+    
+    Args:
+        rows (int): Size of square identity matrix
+        
+    Returns:
+        list: Identity matrix (1s on diagonal, 0s elsewhere)
+        
+    Example:
+        >>> matrix_identity(3)
+        [[1, 0, 0],
+         [0, 1, 0],
+         [0, 0, 1]]
+    """
+    identity = create_matrix(rows, rows, 0)
+    for i in range(rows):
+        identity[i][i] = 1
+    return identity
+
+def is_square(matrix):
+    """
+    Check if matrix is a square matrix (order: n x n).
+    
+    Args:
+        matrix (list): 2D list representing a matrix
+        
+    Returns:
+        Bool: True if matrix is square, else False
+        
+    Example:
+        >>> is_square([[1, 0, 0],[0, 1, 0],[0, 0, 1]])
+        True
+        >>> is_square([[1,2,3],[4,5,6]])
+        False
+    """
+    rows, cols = matrix_shape(matrix)
+    return rows == cols
+
+def matrix_trace(matrix):
+    """
+    Calculate trace of matrix (Sum of diagonal elements/Sum of Eigen Values).
+    
+    Args:
+        matrix (list): 2D list representing a matrix
+        
+    Returns:
+        int: Trace of matrix
+        
+    Example:
+        >>> matrix_trace([[1, 0, 0],[0, 1, 0],[0, 0, 1]])
+        3
+    """
+    if not is_square(matrix):
+        raise ValueError("Trace is only defined for square matrices.")
+    trace = 0
+    rows, cols = matrix_shape(matrix)
+    for i in range(rows):
+        trace += matrix[i][i]
+    return trace
+
+def matrix_transpose(matrix):
+    """
+    Calculate transpose of matrix (Interchanging rows with cols).
+    
+    Args:
+        matrix (list): 2D list representing a matrix
+        
+    Returns:
+        list: Transpose of matrix
+        
+    Example:
+        >>> matrix_transpose([[1, 2, 3],[4, 5, 6],[7, 8, 9]])
+        [[1, 4, 7], [2, 5, 8], [3, 6, 9]]
+        
+    """
+    rows, cols = matrix_shape(matrix)
+    transpose = create_matrix(cols, rows, 0)
+
+    for i in range(cols):
+        for j in range(rows):
+            transpose[i][j] = matrix[j][i]
+
+    return transpose
+
+def is_orthogonal(matrix, tol=1e-8):
+    """
+    Check if matrix is orthogonal or not. (A.A^T = I).
+    
+    Args:
+        matrix (list): 2D list representing a matrix
+        tol (float): tolerence for floating point precision (default: tol=1e-8)
+        
+    Returns:
+        Bool: True if matrix is orthogonal, else False
+        
+    Example:
+        >>> is_orthogonal([[-2/3,1/3,2/3],[2/3,2/3,1/3],[1/3,-2/3,2/3]])
+        True
+        >>> is_orthogonal([[1, 2, 3],[4, 5, 6],[7, 8, 9]])
+        False
+    """
+    if tol < 0:
+        raise ValueError("Tolerance must be non-negative.")
+    
+    if not is_square(matrix):
+        raise ValueError("Orthogonal Matrices are defined only for square matrices.")
+    
+    rows, cols = matrix_shape(matrix)
+    identity = matrix_identity(rows)
+    product = matrix_multiply(matrix, matrix_transpose(matrix))
+
+    for i in range(rows):
+        for j in range(cols):
+            if abs(product[i][j] - identity[i][j]) > tol:
+                return False
+    return True
+
+def determinant(matrix):
+    """
+    Calculate determinant of a matrix
+    
+    Args:
+        matrix (list): 2D list representing a matrix
+        
+    Returns:
+        float: Determinant of a matrix.
+        
+    Example:
+        >>> determinant([[1,0,0],[1,2,3],[9,8,7]])
+        -10
+    """
+    if not is_square(matrix):
+        raise ValueError("Determinant is only defined for square matrices.")
+    rows, cols = matrix_shape(matrix)
+
+    if rows == 1:
+        return matrix[0][0]
+
+    if rows == 2:
+        return matrix[0][0]*matrix[1][1]-matrix[0][1]*matrix[1][0]
+    
+    det = 0
+    for c in range(cols):
+        mat = []
+        for r in range(1,rows):
+            row = []
+            for j in range(cols):
+                if j!=c:
+                    row.append(matrix[r][j])
+            mat.append(row)
+        
+        det += ((-1)**c) * (matrix[0][c]) * determinant(mat) 
+    
+    return round(det,10)
+
+def matrix_minor(matrix):
+    """
+    Calculate minor matrix of a matrix (formed by replacing elements by minor of that element)
+    
+    Args:
+        matrix (list): 2D list representing a matrix
+        
+    Returns:
+        list: Minor matrix of the matrix
+        
+    Example:
+        >>> matrix_minor([[1,2,3],[4,5,6],[7,8,9]])
+        [[-3, -6, -3], [-6, -12, -6], [-3, -6, -3]]
+    """
+    if not is_square(matrix):
+        raise ValueError("Minor of an element is defined only for square matricces.")
+    
+    rows,cols = matrix_shape(matrix)
+    minor = create_matrix(rows, cols, 0)
+
+    for r in range(rows):
+        for c in range(cols):
+            mat = []
+            for i in range(rows):
+                if i != r:
+                    row = []
+                    for j in range(cols):
+                        if j != c:
+                            row.append(matrix[i][j])
+                    mat.append(row)
+            minor[r][c] = determinant(mat)
+
+    return minor
+
+def matrix_cofactor(matrix):
+    """
+    Calculate cofactor matrix of a matrix (formed by replacing elements by cofactor of that element)
+    
+    Args:
+        matrix (list): 2D list representing a matrix
+        
+    Returns:
+        list: Cofactor matrix of the matrix
+        
+    Example:
+        >>> matrix_cofactor([[1,2,3],[4,5,6],[7,8,9]])
+        [[-3, 6, -3], [6, -12, 6], [-3, 6, -3]]
+    """
+    if not is_square(matrix):
+        raise ValueError("Cofactor of an element is defined only for square matricces.")
+    
+    rows,cols = matrix_shape(matrix)
+    cofactor = create_matrix(rows, cols, 0)
+
+    for r in range(rows):
+        for c in range(cols):
+            mat = []
+            for i in range(rows):
+                if i != r:
+                    row = []
+                    for j in range(cols):
+                        if j != c:
+                            row.append(matrix[i][j])
+                    mat.append(row)
+            cofactor[r][c] = ((-1)**(r+c)) * determinant(mat)
+
+    return cofactor
+
+def matrix_power(matrix, power):
+    """
+    Calculate higher power of a matrix
+    
+    Args:
+        matrix (list): 2D list representing a matrix
+        power (int): Positive Integer 
+        
+    Returns:
+        list: nth (int) power of matrix
+        
+    Example:
+        >>> matrix_power([[1,2,3],[4,5,6],[7,8,9]], 2)
+        [[30, 36, 42], [66, 81, 96], [102, 126, 150]]
+    """
+    if not isinstance(power, int):
+        raise ValueError("Power must be an integer.")
+    if not is_square(matrix):
+        raise ValueError("Cannot calculate higher power of non-square matrices")
+    if power < 0:
+        raise ValueError("Can only calcualate positive integral powers of matrix.")
+    
+    i = 0
+    product = matrix_identity(len(matrix))
+    while i < power:
+        product = matrix_multiply(product, matrix)
+        i+=1
+
+    return product

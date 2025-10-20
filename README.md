@@ -46,7 +46,7 @@ print(divisors(24))             # [1, 2, 3, 4, 6, 8, 12, 24]
 
 ### **Matrix Operations**
 ```python
-from numcore import create_matrix, matrix_add, matrix_multiply, scalar_multiply
+from numcore import create_matrix, matrix_add, matrix_multiply, scalar_multiply, determinant
 
 # Create matrices
 mat1 = create_matrix(2, 2, fill=1)  # [[1, 1], [1, 1]]
@@ -56,6 +56,9 @@ mat2 = [[2, 3], [4, 5]]
 sum_mat = matrix_add(mat1, mat2)         # [[3, 4], [5, 6]]
 product = matrix_multiply(mat1, mat2)    # [[6, 8], [6, 8]]
 scaled = scalar_multiply(mat2, 3)        # [[6, 9], [12, 15]]
+det = determinant(mat2)                  # -2
+mat_sq = matrix_power(mat1, 2)           # [[16, 21], [28, 37]]
+idt_3 = matrix_identity(3)               # [[1, 0, 0], [0, 1, 0], [0, 0, 1]]
 
 # Get matrix dimensions
 rows, cols = matrix_shape(mat1)  # (2, 2)
@@ -100,14 +103,23 @@ rows, cols = matrix_shape(mat1)  # (2, 2)
 - `matrix_sub(mat1, mat2)` - Subtract two matrices element-wise
 - `scalar_multiply(matrix, scalar)` - Multiply matrix by a scalar
 - `matrix_multiply(mat1, mat2)` - Matrix multiplication (dot product)
+- `matrix_identity(rows)` - Create an identity matrix
+- `is_square(matrix)` - Check if a matrix is square matrix
+- `matrix_trace(matrix)` - Calculate trace of matrix (Sum of diagonal elements/Sum of Eigen Values)
+- `matrix_transpose(matrix)` - Calculate transpose of a matrix
+- `is_orthogonal(matrix, tol=1e-8)` - Check is a matrix is orthogonal
+- `determinant(matrix)` - Calculate determinant of a matrix
+- `matrix_minor(matrix)` - Calculate minor matrix of a matrix
+- `matrix_cofactor(matrix)` - Calculate cofactor matrix of a matrix
+- `matrix_power(matrix, power)` - Calculate higher power of a matrix
 
 ## 🎯 Roadmap
 
-- [x] Basic input functions (v0.1.0)
+- [x] Basic input functions (v0.1.1)
 - [x] List utilities (v0.1.2)
 - [x] Statistical functions (v0.1.3)
 - [x] Number theory functions (v0.1.4)
-- [x] Matrix operations (v0.1.5)
+- [x] Matrix operations (v0.1.5), (v.0.1.6)
 - [ ] Trigonometry functions (sin, cos, tan with degrees)
 - [ ] Advanced matrix operations (transpose, determinant, inverse)
 - [ ] Algebra functions (solve equations, quadratic formula)
@@ -117,7 +129,7 @@ rows, cols = matrix_shape(mat1)  # (2, 2)
 
 ## 📊 Progress
 
-**Current Functions:** 28/250 (11.2%)
+**Current Functions:** 37/250 (14.8%)
 
 ## 💡 Example Use Cases
 
