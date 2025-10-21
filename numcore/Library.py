@@ -933,3 +933,202 @@ def matrix_power(matrix, power):
         i+=1
 
     return product
+
+def digits(num):
+    """
+    Extract all digits from a number as a list.
+    
+    Args:
+        num (int): The number to extract digits from
+        
+    Returns:
+        list: List of digits in order
+        
+    Example:
+        >>> digits(12345)
+        [1, 2, 3, 4, 5]
+        >>> digits(100)
+        [1, 0, 0]
+    """
+    digits = []
+    while num > 0:
+        digit = num % 10
+        digits.append(digit)
+        num = num // 10
+    digits.reverse()
+    return digits
+
+def reverse_number(num):
+    """
+    Reverse the digits of a number.
+    
+    Args:
+        num (int): Number to reverse
+        
+    Returns:
+        int: Number with reversed digits
+        
+    Example:
+        >>> reverse_number(12345)
+        54321
+        >>> reverse_number(100)
+        1
+    """
+    digit = digits(num)
+    digit.reverse()
+    rev = ""
+    for i in digit:
+        rev += str(i)
+    return int(rev)
+
+def sum_of_digits(num):
+    """
+    Calculate the sum of all digits in a number.
+    
+    Args:
+        num (int): Number to sum digits of
+        
+    Returns:
+        int: Sum of all digits
+        
+    Example:
+        >>> sum_of_digits(12345)
+        15  # 1+2+3+4+5
+        >>> sum_of_digits(999)
+        27  # 9+9+9
+    """
+    return sum(digits(num))
+
+def power_list(lst, power):
+    """
+    Apply a power to each element in a list.
+    
+    Args:
+        lst (list): List of numbers
+        power (int): Power to raise each element to
+        
+    Returns:
+        list: New list with each element raised to the power
+        
+    Example:
+        >>> power_list([1, 2, 3], 2)
+        [1, 4, 9]
+        >>> power_list([2, 3, 4], 3)
+        [8, 27, 64]
+    """
+    result = []
+    for i in lst:
+        result.append(i**power)
+    return result
+
+def is_armstrong(num):
+    """
+    Check if a number is an Armstrong number (narcissistic number).
+    An Armstrong number is equal to the sum of its digits each raised 
+    to the power of the number of digits.
+    
+    Args:
+        num (int): Number to check
+        
+    Returns:
+        bool: True if Armstrong number, False otherwise
+        
+    Example:
+        >>> is_armstrong(153)
+        True  # 1³ + 5³ + 3³ = 1 + 125 + 27 = 153
+        >>> is_armstrong(370)
+        True  # 3³ + 7³ + 0³ = 27 + 343 + 0 = 370
+        >>> is_armstrong(123)
+        False
+    """
+    digit = digits(num)
+    power = len(digit)
+    return sum(power_list(digit, power)) == num
+
+def proper_divisors(num):
+    """
+    Find all proper divisors of a number (all divisors except the number itself).
+    
+    Args:
+        num (int): Number to find proper divisors of
+        
+    Returns:
+        list: Sorted list of proper divisors
+        
+    Example:
+        >>> proper_divisors(12)
+        [1, 2, 3, 4, 6]
+        >>> proper_divisors(28)
+        [1, 2, 4, 7, 14]
+    """
+    divisor = divisors(num)
+    divisor.sort()
+    divisor.pop(-1)
+    return divisor
+
+def is_amicable(a, b):
+    """
+    Check if two numbers form an amicable pair.
+    Two numbers are amicable if the sum of proper divisors of each 
+    equals the other number.
+    
+    Args:
+        a (int): First number
+        b (int): Second number
+        
+    Returns:
+        bool: True if amicable pair, False otherwise
+        
+    Example:
+        >>> is_amicable(220, 284)
+        True  # sum of divisors of 220 = 284, sum of divisors of 284 = 220
+        >>> is_amicable(1184, 1210)
+        True
+        >>> is_amicable(100, 200)
+        False
+    """
+    sum_a, sum_b = sum(proper_divisors(a)), sum(proper_divisors(b))
+    return a == sum_b and b == sum_a
+
+def fibonacci(num):
+    """
+    Generate Fibonacci sequence up to nth number.
+    
+    Args:
+        num (int): How many Fibonacci numbers to generate
+        
+    Returns:
+        list: Fibonacci sequence
+        
+    Example:
+        >>> fibonacci(7)
+        [0, 1, 1, 2, 3, 5, 8]
+    """
+    if num <= 0:
+        return []
+    if num == 1:
+        return [0]
+    fibo = [0, 1]
+    for i in range(3,num+1):
+        fibo.append(fibo[-1] + fibo[-2])
+    return fibo
+
+def nth_fibonacci(num):
+    """
+    Get the nth Fibonacci number.
+    
+    Args:
+        num (int): Position in Fibonacci sequence (1-indexed)
+        
+    Returns:
+        int: The nth Fibonacci number
+        
+    Example:
+        >>> nth_fibonacci(1)
+        0
+        >>> nth_fibonacci(7)
+        8
+    """
+    if num <= 0:
+        raise ValueError("Position must be positive")
+    return (fibonacci(num))[-1]
