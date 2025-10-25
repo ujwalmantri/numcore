@@ -1132,3 +1132,441 @@ def nth_fibonacci(num):
     if num <= 0:
         raise ValueError("Position must be positive")
     return (fibonacci(num))[-1]
+
+def arithmetic_seq(a, d, n):
+    """
+    Generate arithmetic sequence.
+    
+    Args:
+        a (int/float): First term
+        d (int/float): Common difference
+        n (int): Number of terms
+        
+    Returns:
+        list: Arithmetic sequence
+        
+    Example:
+        >>> arithmetic_seq(2, 3, 5)
+        [2, 5, 8, 11, 14]
+    """
+    sequence = []
+    for i in range(n):
+        sequence.append(a+i*d)
+    return sequence
+
+def nth_arithmetic(a, d, n):
+    """
+    Get nth term of arithmetic sequence using formula.
+    Formula: a_n = a + (n-1)d
+    
+    Args:
+        a (int/float): First term
+        d (int/float): Common difference
+        n (int): Term position
+        
+    Returns:
+        float: nth term
+        
+    Example:
+        >>> nth_arithmetic(2, 3, 5)
+        14  # a + 4d = 2 + 4×3 = 14
+    """
+    return a + (n - 1) * d
+
+def arithmetic_sum(a, d, n):
+    """
+    Calculate sum of arithmetic sequence using formula.
+    Formula: S = (n/2) × (2a + (n-1)d)
+    
+    Args:
+        a (int/float): First term
+        d (int/float): Common difference
+        n (int): Number of terms
+        
+    Returns:
+        float: Sum of sequence
+        
+    Example:
+        >>> arithmetic_sum(2, 3, 5)
+        40.0  # 2+5+8+11+14
+    """
+    return (n / 2) * (2 * a + (n - 1) * d)
+
+def geometric_seq(a, r, n):
+    """
+    Generate geometric sequence.
+    
+    Args:
+        a (int/float): First term
+        r (int/float): Common ratio
+        n (int): Number of terms
+        
+    Returns:
+        list: Geometric sequence
+        
+    Example:
+        >>> geometric_seq(2, 3, 4)
+        [2, 6, 18, 54]
+    """
+    sequence = []
+    for i in range(n):
+        sequence.append(a*r**i)
+    return sequence
+
+def nth_geometric(a, r, n):
+    """
+    Get nth term of geometric sequence using formula.
+    Formula: a_n = a × r^(n-1)
+    
+    Args:
+        a (int/float): First term
+        r (int/float): Common ratio
+        n (int): Term position
+        
+    Returns:
+        float: nth term
+        
+    Example:
+        >>> nth_geometric(2, 3, 4)
+        54  # a × r³ = 2 × 3³ = 54
+    """
+    return a * r ** (n - 1)
+
+def geometric_sum(a, r, n):
+    """
+    Calculate sum of geometric sequence using formula.
+    Formula: S = a(1-r^n)/(1-r) for r≠1, S = a×n for r=1
+    
+    Args:
+        a (int/float): First term
+        r (int/float): Common ratio
+        n (int): Number of terms
+        
+    Returns:
+        float: Sum of sequence
+        
+    Example:
+        >>> geometric_sum(2, 3, 4)
+        80.0  # 2+6+18+54 = 80
+        >>> geometric_sum(5, 2, 4)
+        75.0  # 5+10+20+40 = 75
+    """
+    if r == 1:
+        return a * n
+    return a * (1 - r ** n) / (1 - r)
+
+def harmonic_seq(a, d, n):
+    """
+    Generate harmonic sequence (reciprocals of arithmetic sequence).
+    
+    Args:
+        a (int/float): First term of arithmetic sequence
+        d (int/float): Common difference of arithmetic sequence
+        n (int): Number of terms
+        
+    Returns:
+        list: Harmonic sequence
+        
+    Example:
+        >>> harmonic_seq(1, 1, 4)
+        [1.0, 0.5, 0.333..., 0.25]
+    """
+    sequence = []
+    for i in range(n):
+        sequence.append(1/(a+i*d))
+    return sequence
+
+def nth_harmonic(a, d, n):
+    """
+    Get nth term of harmonic sequence using formula.
+    Formula: h_n = 1/(a + (n-1)d)
+    
+    Args:
+        a (int/float): First term of arithmetic sequence
+        d (int/float): Common difference
+        n (int): Term position
+        
+    Returns:
+        float: nth harmonic term
+        
+    Example:
+        >>> nth_harmonic(1, 1, 4)
+        0.25  # 1/(1+3) = 1/4
+    """
+    return 1 / (a + (n - 1) * d)
+
+def harmonic_sum(a, d, n):
+    """
+    Calculate sum of harmonic sequence.
+    
+    Args:
+        a (int/float): First term
+        d (int/float): Common difference
+        n (int): Number of terms
+        
+    Returns:
+        float: Sum of harmonic sequence
+        
+    Example:
+        >>> harmonic_sum(1, 1, 4)
+        2.083...  # 1 + 1/2 + 1/3 + 1/4
+    """
+    return sum(harmonic_seq(a, d, n))
+
+def collatz(n):
+    """
+    Generate Collatz sequence (3n+1 problem).
+    
+    Args:
+        n (int): Starting number
+        
+    Returns:
+        list: Collatz sequence until reaching 1
+        
+    Example:
+        >>> collatz(10)
+        [10, 5, 16, 8, 4, 2, 1]
+        >>> collatz(7)
+        [7, 22, 11, 34, 17, 52, 26, 13, 40, 20, 10, 5, 16, 8, 4, 2, 1]
+    """
+    if n <= 0:
+        raise ValueError("Starting number must be positive")
+    sequence = [n]
+    while n != 1:
+        if n % 2 == 0:
+            n //= 2
+        else:
+            n = 3 * n + 1
+        sequence.append(n)
+    return sequence
+        
+def lucas(num):
+    """
+    Generate lucas sequence up to nth number.
+    
+    Args:
+        num (int): How many lucas numbers to generate
+        
+    Returns:
+        list: lucas sequence
+        
+    Example:
+        >>> lucas(7)
+        [2, 1, 3, 4, 7, 11, 18]
+    """
+    if num <= 0:
+        return []
+    if num == 1:
+        return [2]
+    luc = [2, 1]
+    for _ in range(3,num+1):
+        luc.append(luc[-1] + luc[-2])
+    return luc
+
+def nth_lucas(num):
+    """
+    Get the nth lucas number.
+    
+    Args:
+        num (int): Position in lucas sequence (1-indexed)
+        
+    Returns:
+        int: The nth lucas number
+        
+    Example:
+        >>> nth_lucas(1)
+        2
+        >>> nth_lucas(7)
+        18
+    """
+    if num <= 0:
+        raise ValueError("Position must be positive")
+    return (lucas(num))[-1]
+
+def farey(num):
+    """
+    Generate Farey sequence of order n (all fractions between 0 and 1).
+    
+    Args:
+        num (int): Order of Farey sequence
+        
+    Returns:
+        list: List of tuples (numerator, denominator) in ascending order
+        
+    Example:
+        >>> farey(3)
+        [(0, 1), (1, 3), (1, 2), (2, 3), (1, 1)]
+    """ 
+    if num < 1:
+        return []
+    sequence = []
+    sequence.append((0,1))
+    for q in range(1,num+1):
+        for p in range(1, q):
+            if gcd(p, q) == 1:
+                sequence.append((p,q))
+    sequence.append((1,1))
+    sequence.sort(key=lambda frac: frac[0] / frac[1])
+    return sequence               
+
+def euler_totient(num):
+    """
+    Calculate Euler's totient function φ(n) - count of numbers coprime to n.
+    
+    Args:
+        num (int): Positive integer
+        
+    Returns:
+        int: φ(n) - count of integers coprime to n
+        
+    Example:
+        >>> euler_totient(9)
+        6  # 1,2,4,5,7,8 are coprime to 9
+        >>> euler_totient(12)
+        4  # 1,5,7,11 are coprime to 12
+    """
+    if num <= 0:
+        raise ValueError("Number must be positive")
+    if num == 1:
+        return 1
+    
+    prime_div = prime_divisors(num)
+    p = num
+    for div in prime_div:
+        p *= (1-1/div)
+    return p 
+
+def mobius(num):
+    """
+    Calculate Möbius function μ(n).
+    Returns 1 if n is square-free with even number of prime factors,
+    -1 if square-free with odd number of prime factors, 0 otherwise.
+    
+    Args:
+        num (int): Positive integer
+        
+    Returns:
+        int: μ(n) ∈ {-1, 0, 1}
+        
+    Example:
+        >>> mobius(6)
+        1  # 6 = 2×3 (2 prime factors, square-free)
+        >>> mobius(12)
+        0  # 12 = 2²×3 (not square-free)
+        >>> mobius(30)
+        -1  # 30 = 2×3×5 (3 prime factors, square-free)
+    """
+    if num == 1:
+        return 1
+    pf = prime_factorization(num)
+    if len(pf) != len(set(pf)):
+        return 0
+    else:
+        return (-1) ** len(pf)
+
+def quadratic_residue(num):
+    """
+    Find all quadratic residues modulo n.
+    
+    Args:
+        num (int): Modulus
+        
+    Returns:
+        list: Sorted list of quadratic residues mod n
+        
+    Example:
+        >>> quadratic_residue(7)
+        [1, 2, 4]
+    """
+    residue = []
+    for i in range(1, num):
+        if gcd(i, num) == 1:
+            residue.append(i**2 % num)
+    return sorted(list(set(residue)))
+
+def quadratic_non_residue(num):
+    """
+    Find all quadratic non-residues modulo n.
+    
+    Args:
+        num (int): Modulus
+        
+    Returns:
+        list: List of quadratic non-residues mod n
+        
+    Example:
+        >>> quadratic_non_residue(7)
+        [3, 5, 6]
+    """
+    residues = quadratic_residue(num)
+    non_residue = []
+    for i in range(1, num):
+        if i not in residues and gcd (i, num) == 1:
+            non_residue.append(i)
+    return non_residue
+
+def legendre_symbol(a, p):
+    """
+    Calculate Legendre symbol (a/p).
+    Returns 1 if a is quadratic residue mod p, -1 if non-residue, 0 if divisible.
+    
+    Args:
+        a (int): Integer
+        p (int): Prime number
+        
+    Returns:
+        int: Legendre symbol ∈ {-1, 0, 1}
+        
+    Example:
+        >>> legendre_symbol(2, 7)
+        1
+        >>> legendre_symbol(3, 7)
+        -1
+    """
+    if not is_prime(p):
+        raise ValueError("Legendre Symbol is defined only for prime modulus p ")
+    a %= p
+    if a == 0:
+        return 0
+    ls = pow(a, (p - 1) // 2, p)
+    return -1 if ls == p - 1 else ls
+
+def npr(n, r):
+    """
+    Calculate permutations nPr = n!/(n-r)!
+    
+    Args:
+        n (int): Total items
+        r (int): Items to arrange
+        
+    Returns:
+        int: Number of permutations
+        
+    Example:
+        >>> npr(5, 3)
+        60  # 5!/(5-3)! = 120/2 = 60
+    """
+    if n < 0 or r < 0:
+        raise ValueError("n and r must be non-negative")
+    if r > n:
+        raise ValueError("n must be greater than or equal to r") 
+    return int(factorial(n)/factorial(n-r))
+
+def ncr(n, r):
+    """
+    Calculate combinations nCr = n!/(r!(n-r)!)
+    
+    Args:
+        n (int): Total items
+        r (int): Items to choose
+        
+    Returns:
+        int: Number of combinations
+        
+    Example:
+        >>> ncr(5, 3)
+        10  # 5!/(3!×2!) = 120/(6×2) = 10
+    """
+    if n < 0 or r < 0:
+        raise ValueError("n and r must be non-negative")
+    return int(npr(n, r) / factorial(r))

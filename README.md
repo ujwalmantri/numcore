@@ -18,62 +18,56 @@ pip install numcore
 from numcore import mean, median, mode, std, analyze_list
 
 data = [23, 45, 67, 45, 89, 34, 78, 98, 54, 55]
-
-# Basic statistics
 print(mean(data))      # 58.8
 print(median(data))    # 54.5
-print(mode(data))      # [45]
-print(std(data))       # 23.82
-
-# Comprehensive analysis
 analysis = analyze_list(data)
-print(analysis['mean'])
 print(analysis['variance'])
-print(analysis['frequency'])
 ```
 
 ### **Number Theory**
 ```python
-from numcore import factorial, is_prime, gcd, lcm, prime_factorization
+from numcore import (factorial, is_prime, gcd, prime_factorization,
+                     euler_totient, mobius, legendre_symbol)
 
 print(factorial(5))              # 120
 print(is_prime(17))             # True
 print(gcd(48, 18))              # 6
-print(lcm(12, 18))              # 36
 print(prime_factorization(100)) # [2, 2, 5, 5]
-print(is_armstrong(153))        # True
+print(euler_totient(9))         # 6
+print(mobius(30))               # -1
+print(legendre_symbol(2, 7))    # 1
+```
+
+### **Sequences**
+```python
+from numcore import (fibonacci, arithmetic_seq, geometric_seq, 
+                     lucas, collatz, farey)
+
 print(fibonacci(10))            # [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]
+print(arithmetic_seq(2, 3, 5))  # [2, 5, 8, 11, 14]
+print(geometric_seq(2, 3, 4))   # [2, 6, 18, 54]
+print(lucas(7))                 # [2, 1, 3, 4, 7, 11, 18]
+print(collatz(10))              # [10, 5, 16, 8, 4, 2, 1]
+print(farey(4))                 # [(0,1), (1,4), (1,3), (1,2), (2,3), (3,4), (1,1)]
+```
+
+### **Combinatorics**
+```python
+from numcore import npr, ncr
+
+print(npr(5, 3))  # 60  - Permutations
+print(ncr(5, 3))  # 10  - Combinations
 ```
 
 ### **Matrix Operations**
 ```python
-from numcore import (create_matrix, matrix_add, matrix_multiply, 
-                     scalar_multiply, determinant, matrix_transpose)
+from numcore import (create_matrix, matrix_multiply, determinant, 
+                     matrix_transpose, matrix_power)
 
-# Create matrices
-mat1 = create_matrix(2, 2, fill=1)  # [[1, 1], [1, 1]]
-mat2 = [[2, 3], [4, 5]]
-
-# Basic operations
-sum_mat = matrix_add(mat1, mat2)         # [[3, 4], [5, 6]]
-product = matrix_multiply(mat1, mat2)    # [[6, 8], [6, 8]]
-scaled = scalar_multiply(mat2, 3)        # [[6, 9], [12, 15]]
-
-# Advanced operations
-det = determinant(mat2)                  # -2
-transposed = matrix_transpose(mat2)      # [[2, 4], [3, 5]]
-identity = matrix_identity(3)            # [[1,0,0], [0,1,0], [0,0,1]]
-trace = matrix_trace(mat2)               # 7
-```
-
-### **Number Operations**
-```python
-from numcore import digits, reverse_number, sum_of_digits, is_amicable
-
-print(digits(12345))           # [1, 2, 3, 4, 5]
-print(reverse_number(12345))   # 54321
-print(sum_of_digits(12345))    # 15
-print(is_amicable(220, 284))   # True
+mat = [[1, 2], [3, 4]]
+print(determinant(mat))          # -2
+print(matrix_transpose(mat))     # [[1, 3], [2, 4]]
+print(matrix_power(mat, 2))      # [[7, 10], [15, 22]]
 ```
 
 ## ✨ Features
@@ -82,120 +76,143 @@ print(is_amicable(220, 284))   # True
 - `n_input(n)` - Get n integers from user with validation
 
 ### **List Utilities**
-- `counter(lst)` - Count occurrences of items in a list
-- `product(lst)` - Multiply all numbers in a list
-- `list_power(lst, power)` - Apply power to each element in list
+- `counter(lst)` - Count occurrences of items
+- `product(lst)` - Multiply all numbers
+- `power_list(lst, power)` - Apply power to each element
 
 ### **Statistical Functions**
 - `mean(lst)` - Calculate average
 - `median(lst)` - Find middle value
 - `mode(lst)` - Find most common value(s)
-- `variance(lst, sample=False)` - Calculate variance (population or sample)
+- `variance(lst, sample=False)` - Calculate variance
 - `std(lst, sample=False)` - Calculate standard deviation
 - `analyze_list(lst)` - Comprehensive statistical analysis
 
 ### **Number Theory**
-- `factorial(n)` - Calculate n! (factorial)
-- `nth_root(num, n)` - Calculate nth root of a number
-- `divisors(num)` - Find all divisors (optimized algorithm)
-- `proper_divisors(num)` - Divisors excluding the number itself
-- `common_divisors(num1, num2)` - Find common divisors
-- `gcd(num1, num2)` - Greatest common divisor (Euclidean algorithm)
+- `factorial(n)` - Calculate n!
+- `nth_root(num, n)` - Calculate nth root
+- `divisors(num)` - Find all divisors
+- `proper_divisors(num)` - Divisors excluding number itself
+- `common_divisors(num1, num2)` - Common divisors
+- `gcd(num1, num2)` - Greatest common divisor
 - `lcm(num1, num2)` - Least common multiple
-- `is_prime(num)` - Check if prime (optimized)
-- `primes(num)` - Get all primes up to num
+- `is_prime(num)` - Check if prime
+- `primes(num)` - All primes up to num
 - `prime_divisors(num)` - Prime divisors only
-- `prime_factorization(num)` - Prime factorization with repetition
+- `prime_factorization(num)` - Prime factorization
 - `prime_factors(num)` - Unique prime factors
 - `is_perfect(num)` - Check if perfect number
 - `is_armstrong(num)` - Check if Armstrong number
 - `is_amicable(a, b)` - Check if amicable pair
+- `euler_totient(num)` - Euler's φ function
+- `mobius(num)` - Möbius function μ(n)
+- `quadratic_residue(num)` - Quadratic residues mod n
+- `quadratic_non_residue(num)` - Quadratic non-residues mod n
+- `legendre_symbol(a, p)` - Legendre symbol (a/p)
 
 ### **Sequences**
-- `fibonacci(num)` - Generate Fibonacci sequence
-- `nth_fibonacci(num)` - Get nth Fibonacci number
+- `fibonacci(num)` - Fibonacci sequence
+- `nth_fibonacci(num)` - nth Fibonacci number
+- `lucas(num)` - Lucas sequence
+- `nth_lucas(num)` - nth Lucas number
+- `arithmetic_seq(a, d, n)` - Arithmetic sequence
+- `nth_arithmetic(a, d, n)` - nth term of AP
+- `arithmetic_sum(a, d, n)` - Sum of AP
+- `geometric_seq(a, r, n)` - Geometric sequence
+- `nth_geometric(a, r, n)` - nth term of GP
+- `geometric_sum(a, r, n)` - Sum of GP
+- `harmonic_seq(a, d, n)` - Harmonic sequence
+- `nth_harmonic(a, d, n)` - nth harmonic term
+- `harmonic_sum(a, d, n)` - Sum of harmonic sequence
+- `collatz(n)` - Collatz sequence (3n+1 problem)
+- `farey(num)` - Farey sequence of order n
+
+### **Combinatorics**
+- `npr(n, r)` - Permutations nPr
+- `ncr(n, r)` - Combinations nCr
 
 ### **Digit Operations**
 - `digits(num)` - Extract digits as list
-- `reverse_number(num)` - Reverse the digits
+- `reverse_number(num)` - Reverse digits
 - `sum_of_digits(num)` - Sum all digits
 
 ### **Basic Matrix Operations**
-- `create_matrix(rows, cols, fill=0)` - Create matrix with fill value
-- `input_matrix()` - Interactive matrix input
-- `matrix_shape(matrix)` - Get dimensions and validate
-- `matrix_add(mat1, mat2)` - Add matrices element-wise
-- `matrix_sub(mat1, mat2)` - Subtract matrices element-wise
-- `scalar_multiply(matrix, scalar)` - Multiply by scalar
+- `create_matrix(rows, cols, fill=0)` - Create matrix
+- `input_matrix()` - Interactive input
+- `matrix_shape(matrix)` - Get dimensions
+- `matrix_add(mat1, mat2)` - Matrix addition
+- `matrix_sub(mat1, mat2)` - Matrix subtraction
+- `scalar_multiply(matrix, scalar)` - Scalar multiplication
 - `matrix_multiply(mat1, mat2)` - Matrix multiplication
 
 ### **Advanced Matrix Operations**
-- `matrix_identity(rows)` - Create identity matrix
-- `matrix_transpose(matrix)` - Transpose matrix
-- `matrix_trace(matrix)` - Sum of diagonal elements
-- `determinant(matrix)` - Calculate determinant (recursive)
+- `matrix_identity(rows)` - Identity matrix
+- `matrix_transpose(matrix)` - Transpose
+- `matrix_trace(matrix)` - Trace (sum of diagonal)
+- `determinant(matrix)` - Determinant (recursive)
 - `matrix_minor(matrix)` - Matrix of minors
 - `matrix_cofactor(matrix)` - Cofactor matrix
-- `matrix_power(matrix, power)` - Raise matrix to power
-- `is_square(matrix)` - Check if square matrix
-- `is_orthogonal(matrix)` - Check if orthogonal matrix
+- `matrix_power(matrix, power)` - Matrix exponentiation
+- `is_square(matrix)` - Check if square
+- `is_orthogonal(matrix)` - Check if orthogonal
 
 ## 🎯 Roadmap
 
 - [x] Basic input functions (v0.1.0)
 - [x] List utilities (v0.1.2)
 - [x] Statistical functions (v0.1.3)
-- [x] Number theory functions (v0.1.4)
+- [x] Number theory basics (v0.1.4)
 - [x] Basic matrix operations (v0.1.5)
 - [x] Advanced matrix operations (v0.1.6)
-- [x] Sequence generation & digit operations (v0.1.7)
-- [ ] Trigonometry functions (sin, cos, tan with degrees)
-- [ ] Matrix decomposition (LU, QR, SVD)
-- [ ] Algebra functions (solve equations, quadratic formula)
-- [ ] Calculus functions (derivatives, integrals)
+- [x] Sequences & digit operations (v0.1.7)
+- [x] Advanced number theory & combinatorics (v0.1.8)
+- [ ] Trigonometry functions
+- [ ] Matrix decomposition (LU, QR, eigenvalues)
+- [ ] Algebra (solve equations, polynomials)
+- [ ] Calculus (derivatives, integrals)
 - [ ] Advanced statistics (correlation, regression)
 - [ ] **Goal: 250+ functions!**
 
 ## 📊 Progress
 
-**Current Functions:** 47/250 (18.8%)
+**Current Functions:** 67/250 (26.8%)
 
 ## 💡 Example Use Cases
 
-### **Finding Armstrong Numbers**
+### **Collatz Conjecture**
 ```python
-from numcore import is_armstrong
+from numcore import collatz
 
-for num in range(1, 1000):
-    if is_armstrong(num):
-        print(num)  # 1, 153, 370, 371, 407
+# Test the famous 3n+1 problem
+sequence = collatz(27)
+print(f"Steps: {len(sequence)}")  # 111 steps!
 ```
 
-### **Matrix Determinant Calculation**
+### **Euler's Totient in Cryptography**
 ```python
-from numcore import determinant
+from numcore import euler_totient
 
-matrix = [[1, 2, 3],
-          [4, 5, 6],
-          [7, 8, 9]]
-
-det = determinant(matrix)  # 0 (singular matrix)
+# Used in RSA encryption
+phi_n = euler_totient(15)  # 8
+# Numbers coprime to 15: 1,2,4,7,8,11,13,14
 ```
 
-### **Fibonacci Sequence Generation**
+### **Farey Sequence (Continued Fractions)**
 ```python
-from numcore import fibonacci
+from numcore import farey
 
-fib_seq = fibonacci(10)
-print(fib_seq)  # [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]
+# All fractions between 0 and 1
+fractions = farey(5)
+# [(0,1), (1,5), (1,4), (1,3), (2,5), (1,2), ...]
 ```
 
-### **Checking Amicable Numbers**
+### **Legendre Symbol (Quadratic Residues)**
 ```python
-from numcore import is_amicable
+from numcore import legendre_symbol
 
-print(is_amicable(220, 284))  # True
-# 220 and 284 are the smallest amicable pair
+# Check if 2 is a quadratic residue modulo 7
+result = legendre_symbol(2, 7)  # 1 (yes!)
+# Because 3² ≡ 9 ≡ 2 (mod 7)
 ```
 
 ## 🛠️ Development
@@ -204,11 +221,13 @@ print(is_amicable(220, 284))  # True
 - Python 3.7+
 - No external dependencies!
 
-### **Contributing**
-This is a learning project, but suggestions and feedback are welcome! Feel free to:
-- Report bugs via GitHub Issues
-- Suggest new functions
-- Share how you're using numcore
+### **Testing**
+```python
+# Example test
+from numcore import ncr, npr
+assert ncr(5, 3) == 10
+assert npr(5, 3) == 60
+```
 
 ## 📝 License
 
@@ -223,43 +242,43 @@ MIT License - see [LICENSE](LICENSE) file for details
 
 ## 🌟 Support
 
-If you find this helpful, please:
-- ⭐ Star the repository on GitHub
-- 📦 Try it out: `pip install numcore`
-- 📢 Share with others learning Python
+If you find this helpful:
+- ⭐ Star on GitHub
+- 📦 `pip install numcore`
+- 📢 Share with others
 
 ## 🎓 Learning Journey
 
-This library is being built as a learning project by a first-year student. It documents the journey from basic Python concepts to advanced mathematical algorithms. Each function is implemented from scratch to maximize learning.
+Built by a first-year student, documenting the journey from basic Python to advanced mathematical algorithms.
 
 ### **Milestones**
-- ✅ Published first version to PyPI
-- ✅ Implemented recursive determinant calculation
-- ✅ Built complete matrix operations suite
-- ✅ Reached 18.8% of 250-function goal
-- 🎯 Next: 50 functions (20%)
-- 🎯 Goal: 250+ functions
+- ✅ Published to PyPI
+- ✅ 67 functions implemented
+- ✅ Recursive determinant calculation
+- ✅ Complete sequence generation suite
+- ✅ Advanced number theory (Möbius, Euler's φ, Legendre)
+- ✅ **Reached 26.8% (over 1/4 complete!)**
+- 🎯 Next: 100 functions (40%)
 
 ### **Why numcore?**
-- ✅ Learn by building
-- ✅ No dependencies - pure Python
-- ✅ Well-documented with examples
-- ✅ Growing collection of useful functions
-- ✅ Open source for everyone to learn from
+- Learn by building from scratch
+- Pure Python (no dependencies)
+- Comprehensive documentation
+- Open source learning resource
 
 ## 📚 Function Categories
 
-| Category | Functions | Status |
-|----------|-----------|--------|
-| Input/Output | 2 | ✅ Complete |
-| Statistics | 6 | ✅ Complete |
-| Number Theory | 16 | 🔄 Growing |
-| Sequences | 2 | 🔄 Growing |
-| Digit Operations | 3 | ✅ Complete |
-| Matrix Basic | 7 | ✅ Complete |
-| Matrix Advanced | 9 | ✅ Complete |
-| List Utilities | 2 | 🔄 Growing |
-| **Total** | **47** | **18.8%** |
+| Category | Functions | Completion |
+|----------|-----------|------------|
+| Statistics | 6 | ✅ |
+| Number Theory | 22 | 🔄 Growing |
+| Sequences | 15 | 🔄 Growing |
+| Combinatorics | 2 | 🔄 Growing |
+| Digit Ops | 3 | ✅ |
+| Matrix Basic | 7 | ✅ |
+| Matrix Advanced | 9 | ✅ |
+| List Utils | 3 | 🔄 Growing |
+| **Total** | **67** | **26.8%** |
 
 ---
 
