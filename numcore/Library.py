@@ -1570,3 +1570,334 @@ def ncr(n, r):
     if n < 0 or r < 0:
         raise ValueError("n and r must be non-negative")
     return int(npr(n, r) / factorial(r))
+
+from numcore import*
+
+def print_matrix(matrix):
+    """
+    Pretty print a matrix in readable format.
+    
+    Args:
+        matrix (list): 2D list representing a matrix
+        
+    Example:
+        >>> print_matrix([[1,2],[3,4]])
+        [1, 2]
+        [3, 4]
+    """
+    for row in matrix:
+        print("[", end="")
+        print(", ".join(str(x) for x in row), end="")
+        print("]")
+
+def harmonic_series(n):
+    """
+    Calculate sum of harmonic series: 1 + 1/2 + 1/3 + ... + 1/n
+    
+    Args:
+        n (int): Number of terms
+        
+    Returns:
+        float: Sum of first n terms of harmonic series
+        
+    Example:
+        >>> harmonic_series(4)
+        2.083...  # 1 + 0.5 + 0.333... + 0.25
+    """
+    if n <= 0:
+        raise ValueError("n must be positive")
+    result = 0.0
+    for i in range(1, n + 1):
+        result += 1 / i
+    return result
+
+def z_score(x, lst):
+    """
+    Calculate z-score (standard score) of a value.
+    Measures how many standard deviations away from mean.
+    
+    Args:
+        x (float): Value to calculate z-score for
+        lst (list): Dataset
+        
+    Returns:
+        float: Z-score
+        
+    Example:
+        >>> z_score(75, [50, 60, 70, 80, 90])
+        0.0  # 75 is the mean
+    """
+    return (x - mean(lst))/std(lst)
+
+def covariance(lst1, lst2, sample=False):
+    """
+    Calculate covariance between two datasets.
+    Measures how two variables change together.
+    
+    Args:
+        lst1 (list): First dataset
+        lst2 (list): Second dataset
+        sample (bool): If True, use sample covariance (n-1)
+        
+    Returns:
+        float: Covariance value
+        
+    Example:
+        >>> covariance([1,2,3], [2,4,6])
+        2.0  # Positive covariance (both increase together)
+    """
+    if len(lst1) != len(lst2):
+        raise ValueError("Lists must have same length")
+    
+    mean1 = mean(lst1)
+    mean2 = mean(lst2)
+    n = len(lst1) - 1 if sample else len(lst1)
+    
+    result = 0
+    for i in range(len(lst1)):
+        result += (lst1[i] - mean1) * (lst2[i] - mean2)
+    
+    return result / n
+
+def rate_of_return(current_value, original_value):
+    """
+    Calculate rate of return (percentage change).
+    
+    Args:
+        current_value (float): Current value
+        original_value (float): Original/initial value
+        
+    Returns:
+        float: Rate of return as percentage
+        
+    Example:
+        >>> rate_of_return(110, 100)
+        10.0  # 10% gain
+        >>> rate_of_return(90, 100)
+        -10.0  # 10% loss
+    """
+    return (current_value - original_value) * 100 / original_value
+
+def is_coprime(a, b):
+    """
+    Check if two numbers are coprime (relatively prime).
+    Two numbers are coprime if gcd(a,b) = 1.
+    
+    Args:
+        a (int): First number
+        b (int): Second number
+        
+    Returns:
+        bool: True if coprime, False otherwise
+        
+    Example:
+        >>> is_coprime(8, 15)
+        True  # gcd(8,15) = 1
+        >>> is_coprime(8, 12)
+        False  # gcd(8,12) = 4
+    """
+    return gcd(a,b) == 1
+
+def binomial_coff(n, k):
+    """
+    Calculate binomial coefficient C(n,k) = "n choose k".
+    Same as ncr(n, k).
+    
+    Args:
+        n (int): Total items
+        k (int): Items to choose
+        
+    Returns:
+        int: Binomial coefficient
+        
+    Example:
+        >>> binomial_coeff(5, 2)
+        10
+    """
+    return ncr(n, k)
+
+def catalan_number(n):
+    """
+    Calculate nth Catalan number.
+    Used in combinatorics - counts binary trees, parentheses combinations, etc.
+    
+    Args:
+        n (int): Index (0-indexed)
+        
+    Returns:
+        float: nth Catalan number
+        
+    Example:
+        >>> catalan_number(0)
+        1.0
+        >>> catalan_number(3)
+        5.0
+        >>> catalan_number(5)
+        42.0
+    """
+    if n < 0:
+        raise ValueError("n must be non-negative")
+    return (1/(n+1)) * ncr(2*n, n) 
+
+def geometric_mean(lst):
+    """
+    Calculate geometric mean: nth root of product of n numbers.
+    
+    Args:
+        lst (list): List of positive numbers
+        
+    Returns:
+        float: Geometric mean
+        
+    Example:
+        >>> geometric_mean([2, 8])
+        4.0  # √(2×8) = √16 = 4
+        >>> geometric_mean([1, 3, 9])
+        3.0  # ∛(1×3×9) = ∛27 = 3
+    """
+    if not lst:
+        raise ValueError("List cannot be empty")
+    if any(x <= 0 for x in lst):
+        raise ValueError("All values must be positive")
+    return nth_root(product(lst), len(lst))
+
+def reciprocal_list(lst):
+    """
+    Calculate reciprocal (1/x) of each element.
+    
+    Args:
+        lst (list): List of numbers (non-zero)
+        
+    Returns:
+        list: List of reciprocals
+        
+    Example:
+        >>> reciprocal_list([2, 4, 5])
+        [0.5, 0.25, 0.2]
+    """
+    if any(x == 0 for x in lst):
+        raise ValueError("Cannot calculate reciprocal of zero")
+    reciprocals = []
+    for i in lst:
+        reciprocals.append(i ** -1)
+    return reciprocals
+
+def harmonic_mean(lst):
+    """
+    Calculate harmonic mean: n / (1/x₁ + 1/x₂ + ... + 1/xₙ)
+    
+    Args:
+        lst (list): List of positive numbers
+        
+    Returns:
+        float: Harmonic mean
+        
+    Example:
+        >>> harmonic_mean([2, 3, 4])
+        2.769...
+    """
+    if not lst:
+        raise ValueError("List cannot be empty")
+    return len(lst)/sum(reciprocal_list(lst))
+
+def coefficient_of_variation(lst, sample=False):
+    """
+    Calculate coefficient of variation (CV): (std/mean) × 100
+    Measures relative variability.
+    
+    Args:
+        lst (list): List of numbers
+        sample (bool): If True, use sample standard deviation
+        
+    Returns:
+        float: CV as percentage
+        
+    Example:
+        >>> coefficient_of_variation([2, 4, 6, 8])
+        51.6...  # High variability relative to mean
+    """
+    if not lst:
+        raise ValueError("List cannot be empty")
+    m = mean(lst)
+    if m == 0:
+        raise ValueError("Cannot calculate CV when mean is zero")
+    return std(lst, sample) * 100 / m
+
+def percentile(lst, p):
+    """
+    Find value at pth percentile.
+    
+    Args:
+        lst (list): List of numbers
+        p (float): Percentile (0-100)
+        
+    Returns:
+        float: Value at pth percentile
+        
+    Example:
+        >>> percentile([1,2,3,4,5], 50)
+        3  # Median (50th percentile)
+    """
+    if not 0 <= p <= 100:
+        raise ValueError("Percentile must be between 0 and 100")
+    
+    sorted_lst = sorted(lst)
+    index = (p / 100) * (len(sorted_lst) - 1)
+    
+    if index.is_integer():
+        return sorted_lst[int(index)]
+    else:
+        # Interpolate between values
+        lower = int(index)
+        upper = lower + 1
+        weight = index - lower
+        return sorted_lst[lower] * (1 - weight) + sorted_lst[upper] * weight
+
+def mean_absolute_deviation(lst):
+    """
+    Calculate mean absolute deviation (MAD).
+    Average distance of each point from the mean.
+    
+    Args:
+        lst (list): List of numbers
+        
+    Returns:
+        float: Mean absolute deviation
+        
+    Example:
+        >>> mean_absolute_deviation([1, 2, 3, 4, 5])
+        1.2
+    """
+    if not lst:
+        raise ValueError("List cannot be empty")
+    avg = mean(lst)
+    total = 0
+    for i in lst:
+        total += abs(i - avg)
+    return total / len(lst)
+
+def signum(x):
+    """
+    Sign function (signum function).
+    Returns -1 for negative, 0 for zero, 1 for positive.
+    
+    Args:
+        x (float): Number
+        
+    Returns:
+        int: Sign of x ∈ {-1, 0, 1}
+        
+    Example:
+        >>> signum(5)
+        1
+        >>> signum(-3)
+        -1
+        >>> signum(0)
+        0
+    """ 
+    if x == 0:
+        return 0
+    elif x > 0:
+        return 1
+    else:
+        return -1

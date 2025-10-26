@@ -4,9 +4,9 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "numcore"
-version = "0.1.8"
+version = "0.1.9"
 authors = [{ name = "ujwal mantri", email = "ujwalmantrifr@gmail.com" }]
-description = "A mathematics library in active development with plans for 250+ functions. Started by a first-year student, built from scratch, and designed to become a comprehensive math toolkit"
+description = "A comprehensive mathematics library... Growing daily with new functions"
 readme = "README.md"
 license = { file = "LICENSE" }
 dependencies = []

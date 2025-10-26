@@ -6,5 +6,5 @@ numcore - A mathematics library in active development with plans for 250+ functi
 from .Library import *  # Replace 'library' with your actual filename
 
 # Package metadata
-__version__ = "0.1.8"
+__version__ = "0.1.9"
 __author__ = "ujwal mantri"
